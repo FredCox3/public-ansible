@@ -7,22 +7,22 @@ This playbook will update a clustered JSS using files from a manual installation
 	.
     ├── group_vars
     │   ├── all	          			# Update this file to include the new/old versions you're working with. E.g. 9.7 to 9.72
-    ├── hosts						# Host file for your environment. This example has production and test
-    ├── roles                   	# Directory for server "roles"
-    │   ├── stop_services       	# Load and stress tests
+    ├── hosts					# Host file for your environment. This example has production and test
+    ├── roles                   		# Directory for server "roles"
+    │   ├── stop_services       		# Load and stress tests
 	│	│   ├── tasks				
 	│	│	│   ├── main.yml    	# .yml file to stop tomcat7 service 
-	├── webapp       				# Directory for Web App Role
+	├── webapp       			# Directory for Web App Role
 	│   ├── files					
-	│	│   ├── 9.7		    		# JSS Version 9.7
+	│	│   ├── 9.7	    		# JSS Version 9.7
 	│	│	│   ├── ROOT.war    	# ROOT.war from Manual Install on version 9.7
-	│	│   ├── 9.72    			# JSS Version 9.72
+	│	│   ├── 9.72   			# JSS Version 9.72
 	│	│	│   ├── ROOT.war        # ROOT.war from Manual Install on version 9.72 
 	│	│   ├── DataBase.xml    	# DataBase.xml from YOUR server. Note: This is blank
 	│	│   ├── log4j.properties  	# log4j.properties from YOUR server. Note: This is blank
     │   ├── tasks		         	
 	│	│   ├── main.yml	    	# .yml file to perform the upgrade
-    │   └── site.yml                # Unit tests
+    │   └── site.yml    	     		# Main .yml file for playbook. 
     └──
 
 ### Steps to Take
