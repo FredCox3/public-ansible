@@ -1,0 +1,25 @@
+---
+  - name: copy update ROOT.war file
+    copy: src="{{ new_war }}" dest=/tmp mode=0755
+  - name: stop tomcat service
+    service: name=tomcat7 state=stopped
+  - name: verify tomcat has stopped
+    wait_for: port=8080 state=stopped
+  - name: backup current state to admin home directory
+    command: /bin/mv /var/lib/tomcat7/webapps/ROOT /home/administrator/ROOT_{{ old_ver }}
+  - name: remove old root.war
+    file: path=/var/lib/tomcat7/webapps/ROOT.war state=absent
+  - name: move new ROOT.war into place
+    command: /bin/mv /tmp/ROOT.war /var/lib/tomcat7/webapps
+  - name: start tomcat to unpack ROOT.war
+    service: name=tomcat7 state=started
+  - name: wait for Tomcat to complete
+    wait_for: port=8080 state=started delay=15
+  - name: move DataBase.xml into place
+    copy: src="{{ db_xml }}" dest={{ xml_dir }}
+  - name: move log4j.properties into WEB-INF folder.
+    copy: src="{{ log4j }}" dest={{ classes_dir }}
+  - name: restart tomcat to pickup Database and logging changes.
+    service: name=tomcat7 state=restarted
+  - name: wait for master web-app to complete update
+    pause: prompt="Wait for web app update to complete and verify alls is OK."

@@ -1,0 +1,17 @@
+[test_master]
+172.16.0.1 ansible_ssh_user=admin
+
+[test_nonmaster]
+172.16.0.2 ansible_ssh_user=admin
+
+[prod_master]
+10.0.0.1 ansible_ssh_user=admin
+
+[prod_nonmaster]
+10.0.0.2 ansible_ssh_user=admin
+10.0.0.3 ansible_ssh_user=admin
+10.0.0.4 ansible_ssh_user=admin
+
+[prod:children]
+prod_master
+prod_nonmaster

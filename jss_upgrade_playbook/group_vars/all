@@ -1,0 +1,10 @@
+---
+# Variables listed here are applicable to all host groups
+
+new_ver: 9.72
+old_ver: 9.70
+new_war: "{{ new_ver }}/ROOT.war"
+db_xml: DataBase.xml
+log4j: log4j.properties
+xml_dir: /var/lib/tomcat7/webapps/ROOT/WEB-INF/xml/
+classes_dir: /var/lib/tomcat7/webapps/ROOT/WEB-INF/classes/

@@ -1,0 +1,3 @@
+---
+  - name: stop tomcat on all servers
+    service: name=tomcat7 state=stopped
