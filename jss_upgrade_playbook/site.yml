@@ -1,7 +1,7 @@
 ---
 # This playbook updates JAMF Software's Casper Server in Clustered Environments
 
-- hosts: prod
+- hosts: test
   remote_user: root
   sudo: yes
   serial: 4
@@ -9,7 +9,7 @@
   roles:
     - stop_services
 
-- hosts: prod_master
+- hosts: test_master
   remote_user: root
   sudo: yes
   serial: 1
@@ -17,7 +17,7 @@
   roles:
     - webapp
 
-- hosts: prod_nonmaster
+- hosts: test_nonmaster
   remote_user: root
   sudo: yes
   serial: 2
