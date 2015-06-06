@@ -1,12 +1,12 @@
 ---
-  - name: copy update ROOT.war file
+  - name: copy updated ROOT.war file to host
     copy: src="{{ new_war }}" dest=/tmp mode=0755
   - name: stop tomcat service
     service: name=tomcat7 state=stopped
-  - name: verify tomcat has stopped
+  - name: wait for tomcat to stop
     wait_for: port=8080 state=stopped
-  - name: backup current state to admin home directory
-    command: /bin/mv /var/lib/tomcat7/webapps/ROOT /home/administrator/ROOT_{{ old_ver }}
+  - name: backup current state to home directory of ansible_ssh_user
+    command: /bin/mv /var/lib/tomcat7/webapps/ROOT /home/{{ ansible_ssh_user }}/ROOT_{{ old_ver }}_{{ ansible_date_time.date}}_{{ ansible_date_time.time}}
   - name: remove old root.war
     file: path=/var/lib/tomcat7/webapps/ROOT.war state=absent
   - name: move new ROOT.war into place
@@ -21,5 +21,13 @@
     copy: src="{{ log4j }}" dest={{ classes_dir }}
   - name: restart tomcat to pickup Database and logging changes.
     service: name=tomcat7 state=restarted
-  - name: wait for master web-app to complete update
-    pause: prompt="Wait for web app update to complete and verify alls is OK."
+  - name: Wait for tomcat to kick in again
+    wait_for: port=8080 delay=15 connect_timeout=15
+  - name: giving tomcat a chance to give a proper response
+    pause: seconds=15
+  - name: Check if API call contains `401` status code. Wait of up to 1 hour.
+    uri: url=http://127.0.0.1:8080/JSSResource/activationcode return_content=true  status_code=401,200
+    register: response
+    until: response.status|int == 401
+    retries: 240
+    delay: 15
