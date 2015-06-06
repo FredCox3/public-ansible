@@ -3,6 +3,10 @@ JSS Upgrade Ansible Playbook
 
 This playbook will update a clustered JSS using files from a manual installation.
 
+### Requirements
+- Ansible
+- httplib2 on all remote hosts. (ubuntu: sudo apt-get install python-httplib2 osx: look it up based on your python install)
+
 ### Structure
 				.
 				├── group_vars
@@ -39,4 +43,4 @@ This playbook will update a clustered JSS using files from a manual installation
 ``` 
 ansible-playbook -i /path/to/hosts /path/to/site.yml --verbose --check
 ```
-
+Update: 06-06-2015 Added logic to wait on upgrade to complete before continuing to upgrade additoinal webapps.
